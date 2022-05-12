@@ -36,9 +36,9 @@ Duration: 2
 You are a stock portfolio manager of a team of 10 traders !!! Each of your traders trade stocks in 10 separate industries. You have with you available 10 years of historical data of trades that your team performed, sitting in an S3 bucket - you know what stocks they traded (BUY or SELL), and at what price.
 
 You would like to aggregate their Profit & Loss, and even get a real time aggregated view of total realized and unrealized gains/loss of each of your traders. To accomplish this, we will follow the following steps:
-1. Acquire stocks historical data, freely provided by [Zepl](https://www.snowflake.com/datasets/zepl-us-stock-market-data-for-data-science/), from snowflake data marketplace. This will create a new database in your snowflake account.
-2. Launch a Matillion ETL instance through snowflake partner connect.
-3. Use Matillion to :
+* Acquire stocks historical data, freely provided by [Zepl](https://www.snowflake.com/datasets/zepl-us-stock-market-data-for-data-science/), from snowflake data marketplace. This will create a new database in your snowflake account.
+* Launch a Matillion ETL instance through snowflake partner connect.
+* Use Matillion to :
   - Ingest your traders’ historical data sitting in a S3 bucket, into a Snowflake table.
   - Develop a transformation pipeline to create each trader’s PnL as of today, by joining with stock data from Zepl
   - Leverage Yahoo Finance API to get real time stock data
@@ -63,9 +63,9 @@ As the `ACCOUNTADMIN` role, navigate to Marketplace, and search for “zepl”. 
 ![3_zepl](assets/3_zepl.png)
 
 Next:
-1. Click on “Get Data” on the right.
-2. A pop-up screen opens: prefix the database name with “ZEPL_” so the name becomes `ZEPL_US_STOCKS_DAILY`
-3. Click on “Get Data” in the center.
+* Click on “Get Data” on the right.
+* A pop-up screen opens: prefix the database name with “ZEPL_” so the name becomes `ZEPL_US_STOCKS_DAILY`
+* Click on “Get Data” in the center.
 
 ![3_get_zepl](assets/3_get_zepl.png)
 
@@ -94,17 +94,17 @@ In the screenshot below, the account text we are look for is: `bjjihzu-ji91805`
 ## Launching Matillion ETL from Partner Connect
 Duration: 5
 
-1. Navigate to Admin --> Partner Connect, then click on the **"Matillion ETL"** tile
+* Navigate to Admin --> Partner Connect, then click on the **"Matillion ETL"** tile
 
 ![4_pc_metl](assets/4_pc_metl.png)
 
-2. All fields are pre-populated, **give additional ‘Optional Grant’ to `ZEPL_US_STOCKS_DAILY` database** (created in previous section), then **click Connect**
+* All fields are pre-populated, **give additional ‘Optional Grant’ to `ZEPL_US_STOCKS_DAILY` database** (created in previous section), then **click Connect**
 
 ![4_og](assets/4_og.png)
 
 ![4_metl_connect](assets/4_metl_connect.png)
 
-3. Once the partner account has been created, **Click Activate**
+* Once the partner account has been created, **Click Activate**
 
 ![4_activate](assets/4_activate.png)
 
@@ -114,19 +114,19 @@ Duration: 10
 
 You will be redirected to the Matillion ETL web console. Your username and password will be auto-generated and sent to the same email you provided to launch your Snowflake trial account.
 
-1. Once logged in to Matillion, you will be prompted to join a project. Click **Create Project** to get started.
+* Once logged in to Matillion, you will be prompted to join a project. Click **Create Project** to get started.
 
 ![5_metl_cp](assets/5_metl_cp.png)
 
-2. Within the **Project Group** dropdown select **“Partner Connect”**, add a new name for the project (for the purpose of this lab we will name it **“TraderPnL”**). You can leave Project Description blank, and the check-box’s with the default settings. Click **Next**
+* Within the **Project Group** dropdown select **“Partner Connect”**, add a new name for the project (for the purpose of this lab we will name it **“TraderPnL”**). You can leave Project Description blank, and the check-box’s with the default settings. Click **Next**
 
 ![5_project_name](assets/5_project_name.png)
 
-3. In the **AWS Connection** set the **“Environment Name”** (for the purpose of this lab we will name it **“Lab”**). Click Next
+* In the **AWS Connection** set the **“Environment Name”** (for the purpose of this lab we will name it **“Lab”**). Click Next
 
 ![5_lab](assets/5_lab.png)
 
-4. Enter your Snowflake Connection details here. The Account field is the same text you saved from Snowflake UI in section 3. Also enter your Snowflake account “Username” and “Password”. Click Next.
+4. Enter your Snowflake Connection details here. The Account field is the same text you saved from Snowflake UI in section * Also enter your Snowflake account “Username” and “Password”. Click Next.
 
 ![5_metl_sf_connect](assets/5_metl_sf_connect.png)
 
@@ -163,13 +163,13 @@ The following steps will walk through adding different components to the workspa
 
 ### [S3 Load Generator](https://documentation.matillion.com/docs/6411982)
 
-1. From the Components section on the left hand side, expand the Wizards folder. Find the S3 Load Generator component.
+* From the Components section on the left hand side, expand the Wizards folder. Find the S3 Load Generator component.
 
 ![6_s3_lg](assets/6_s3_lg.png)
 
-2. Drag and drop the S3 Load Generator component onto the workspace as the first step after the Start component.  
+* Drag and drop the S3 Load Generator component onto the workspace as the first step after the Start component.  
 
-3. A S3 Load Generator menu will automatically pop up. Click the ... button to explore S3 bucket
+* A S3 Load Generator menu will automatically pop up. Click the ... button to explore S3 bucket
 
 4. Copy and paste the S3 bucket into the wizard: `s3://mtln-techworkshops/VHOL_Trades/`
 
@@ -201,15 +201,15 @@ _Note if you click test you may receive a permission error on the S3 bucket. You
 
 ![6_column_size](assets/6_column_size.png)
 
-11. Change the component name and table name to `TRADES_HISTORY`, by clicking on the ... button in the Properties tab
+1* Change the component name and table name to `TRADES_HISTORY`, by clicking on the ... button in the Properties tab
 
 ![6_comp_name_TH](assets/6_comp_name_TH.png)
 
-12. Right click on the TRADES_HISTORY component and select **Run Component**. This will create a new table in your Snowflake account !
+1* Right click on the TRADES_HISTORY component and select **Run Component**. This will create a new table in your Snowflake account !
 
 ![6_run_comp](assets/6_run_comp.png)
 
-13. Next, Select the S3 Load component, and change the Name in the Properties tab to **LOAD TRADES_HISTORY**.  
+1* Next, Select the S3 Load component, and change the Name in the Properties tab to **LOAD TRADES_HISTORY**.  
 
 14. Change the **S3 Object Prefix** by clicking on the ... button to select the VHOL_Trades directory, and then click OK.
 
@@ -225,7 +225,7 @@ _Note if you click test you may receive a permission error on the S3 bucket. You
 
 18. Right click on the LOAD TRADE_HISTORY component and run it by clicking **Run Component**.
 
-19. Check back in your Snowflake console to confirm the TRADES_HISTORY table was created, and data loaded - 1.7 million rows, and compressed to < 10 MB !
+19. Check back in your Snowflake console to confirm the TRADES_HISTORY table was created, and data loaded - *7 million rows, and compressed to < 10 MB !
 
 ![6_sf_th](assets/6_sf_th.png)
 
@@ -233,9 +233,9 @@ _Note if you click test you may receive a permission error on the S3 bucket. You
 
 The next step of the orchestration is to scale up Snowflake’s Virtual Warehouse to accommodate resource heavy transformation jobs.
 
-1. Find the Alter Warehouse component from the Components pane.  
-2. Drag and drop the component as the last step, connected to the LOAD TRADES_HISTORY component. Click on the component to edit its Properties.  
-3. Rename of the component to `Size Up Warehouse to M`.  
+* Find the Alter Warehouse component from the Components pane.  
+* Drag and drop the component as the last step, connected to the LOAD TRADES_HISTORY component. Click on the component to edit its Properties.  
+* Rename of the component to `Size Up Warehouse to M`.  
 4. Change the **Command Type** to Set.   
 5. A new field will appear, edit Properties to add a new line with Property set to **WAREHOUSE_SIZE** and Value set to `MEDIUM`.  
 
@@ -256,13 +256,13 @@ The trading history data from S3 gives a listing of ten traders with both BUY an
 
 ### Let's get started!
 
-1. Within the Project Explorer, right-click and select **Add Transformation Job**.
+* Within the Project Explorer, right-click and select **Add Transformation Job**.
 
 ![7_2_add_tran](assets/7_2_add_tran.png)
 
-2. Set the title to `VHOL_CURRENT_POSITION`, and click Ok.
+* Set the title to `VHOL_CURRENT_POSITION`, and click Ok.
 
-3. Next prompt will ask you to switch to the new job, click NO.
+* Next prompt will ask you to switch to the new job, click NO.
 
 4. From the explorer, drop the newly created job as the next step after the Alter Warehouse component within the previously created orchestration job (VHOL_orchestration) and complete the connection, as shown below:
 
@@ -285,9 +285,9 @@ Column Names: Select all columns by clicking the ... button
 ### [Filter](https://documentation.matillion.com/docs/1991641) - Filter Buy actions
 
 Now, let’s add a second step to filter the data based on the type action.
-1. Find/Search the Filter component in the component list under Data > Transform folder and drop it on the canvas, connect it to the TRADES_HISTORY component.
-2. Click on the component and update the **Name** property to `ACTION = BUY`
-3. Then use the Filter Conditions property wizard, add a line with the following settings:
+* Find/Search the Filter component in the component list under Data > Transform folder and drop it on the canvas, connect it to the TRADES_HISTORY component.
+* Click on the component and update the **Name** property to `ACTION = BUY`
+* Then use the Filter Conditions property wizard, add a line with the following settings:
 
 Input Column: `ACTION`
 Qualifier: `Is`
@@ -301,9 +301,9 @@ Your Transformation Job should now look like this:
 ### [Calculator](https://documentation.matillion.com/docs/1991925)
 
 Now we will add a calculator to calculate the amount of investment in each buy transaction:
-1. Find/Search the CALCULATOR component under **Data > Transform** folder and link it to the ACTION = BUY component created in the previous step.
-2. Click on the component and name it `TOTAL_PAID`
-3. Edit the Calculations property and use the expression builder to create the calculation:
+* Find/Search the CALCULATOR component under **Data > Transform** folder and link it to the ACTION = BUY component created in the previous step.
+* Click on the component and name it `TOTAL_PAID`
+* Edit the Calculations property and use the expression builder to create the calculation:
 - Add a new field with “+” button, name it TOTAL_PAID
 - Build the expression:  `-("NUM_SHARES" * "PRICE")`
 
@@ -316,11 +316,11 @@ Clicl OK. Your transformation job should now look like this:
 ### [Aggregate](https://documentation.matillion.com/docs/1991880)
 
 Next we will sum up the investments made in each stock by aggregating.
-1. Let's add an Aggregate component from the palette under **Data > Transform** folder and link it to the previous Calculator component.
-2. Click on the component to edit the Properties:  
+* Let's add an Aggregate component from the palette under **Data > Transform** folder and link it to the previous Calculator component.
+* Click on the component to edit the Properties:  
 Name: `BUY_AGG`  
 Groupings: `TRADER, SYMBOL`  
-3. Open the Aggregations field wizard and add 2 lines then configure them like this:  
+* Open the Aggregations field wizard and add 2 lines then configure them like this:  
 **Source Column: Aggregation Type**  
 TOTAL_PAID: `Sum`  
 NUM_SHARES: `Sum`
@@ -333,13 +333,13 @@ Clicl OK. Your transformation job should now look like this:
 
 ### We will now copy & paste the Filter, Calculator, and Aggregate components to create a similar pipeline, but for SELL filter.
 
-1. Right-click on each of the components and select copy.
-2. Paste the component by right clicking on a blank area in the canvas, and selecting paste. Connect the new components as shown below. Your Transformation Job show now looks like this:
+* Right-click on each of the components and select copy.
+* Paste the component by right clicking on a blank area in the canvas, and selecting paste. Connect the new components as shown below. Your Transformation Job show now looks like this:
 
 ![7_10_cp](assets/7_10_cp.png)
 
-3. Update the properties of the new components with the information below:  
-  3.1 Filter:  
+* Update the properties of the new components with the information below:  
+  *1 Filter:  
   - Name: `ACTION = SELL`
   - Filter Conditions:  
     - Input Column: `ACTION`
@@ -349,14 +349,14 @@ Clicl OK. Your transformation job should now look like this:
 
 ![7_11_filter](assets/7_11_filter.png)
 
-  3.2 Calculator:
+  *2 Calculator:
   - Name: `TOTAL_GAIN`
   - Add a new field with “+” button, name it TOTAL_GAIN
   - Build the expression:  `("NUM_SHARES" * "PRICE")`
 
 ![7_12_calc](assets/7_12_calc.png)
 
-  3.3 Aggregate:  
+  *3 Aggregate:  
   - Name: `SELL_AGG`  
   - Groupings: `TRADER, SYMBOL`  
   - Aggregations: `TOTAL_GAIN, Sum, NUM_SHARES, Sum`  
@@ -367,8 +367,8 @@ We are now going to join the 2 flows together.
 
 ### [Join](https://documentation.matillion.com/docs/1991923) - Join the BUY and SELL aggregations into a single dataset
 
-1. Find/Search the Join component under Data > Join folder and drag and drop it as the last step of the job. Connect the Join component to both the BUY_AGG and SELL_AGG.
-2. Click on the Join component to edit the Properties:  
+* Find/Search the Join component under Data > Join folder and drag and drop it as the last step of the job. Connect the Join component to both the BUY_AGG and SELL_AGG.
+* Click on the Join component to edit the Properties:  
 - Name: `Join BUY and SELL Transactions`  
 - Main Table: `BUY_AGG`  
 - Main Table Alias: `buy`  
@@ -456,13 +456,13 @@ The previous Transformation job provided a snapshot of every trader, based on th
 
 Let’s get started!
 
-1. Within the Projects Explorer, right click and select **Add Transformation Job**, title it **VHOL_PNL_xform** and drop it as the last step step after the **VHOL_CURRENT_POSITION** transformation component in the VHOL_orchestration job.
+* Within the Projects Explorer, right click and select **Add Transformation Job**, title it **VHOL_PNL_xform** and drop it as the last step step after the **VHOL_CURRENT_POSITION** transformation component in the VHOL_orchestration job.
 
-2. Double click on the newly created **VHOL_PNL_xform** component to wwitch back to the new workspace to start building the job.
+* Double click on the newly created **VHOL_PNL_xform** component to wwitch back to the new workspace to start building the job.
 
 ### [Table Input](https://documentation.matillion.com/docs/1991918) - Read **STOCK_HISTORY**
 
-1. Find the Table Input component and drop it into the canvas. Click on the component to configure as per the table below.
+* Find the Table Input component and drop it into the canvas. Click on the component to configure as per the table below.
 
 Note that we are switching database to point to **ZEPL_US_STOCKS_DAILY** to get the **STOCK_HISTORY** table.
 
@@ -479,12 +479,12 @@ Column Names:   `Select all columns`
 
 We will filter to only include the most recent clost date for the stock.
 
-1. Right-click on the canvas and select Manage Job Variables.
+* Right-click on the canvas and select Manage Job Variables.
 
 
 ![8_filter](assets/8_filter.png)  
 
-2. Fill out the Manage Job Variables as follows, using the  ![8_add](assets/8_add.png) to add a new variable as follows:
+* Fill out the Manage Job Variables as follows, using the  ![8_add](assets/8_add.png) to add a new variable as follows:
 
 Name:       `yest_date`  
 Type:       `DateTime`   
@@ -494,7 +494,7 @@ Value:      `1900-01-01`
 
 ![8_stock_jv](assets/8_stock_jv.png)
 
-3. Click **Ok**
+* Click **Ok**
 
 4. Drag and drop a filter component as the next step after the STOCK_HISTORY table input. Fill out the filter properties as follows:
 
@@ -532,27 +532,27 @@ Column Names:   `Select all columns`
 
 ![8_current_pos](assets/8_current_pos.png)
 
-1. Locate the Join component, drag and drop into the workspace and connect the previous Filter and Table Input components. The flow should look like this:  
+* Locate the Join component, drag and drop into the workspace and connect the previous Filter and Table Input components. The flow should look like this:  
 
 ![8_flow_join](assets/8_flow_join.png)  
 
 ### [Join](https://documentation.matillion.com/docs/1991923) - Join yestserday's stock close with the CURRENT_POSITION dataset  
 
-1. Click on the Join component to edit its properties as follows:  
+* Click on the Join component to edit its properties as follows:  
 
 Name:   `Join CURRENT_POSITION and STOCK_HISTORY`  
 Main Table:   `CURRENT_POSITION`  
 Main Table Alias:   `current_position`  
 Joins:    `FILTER ON YEST_DATE` , `stock_history` , `Left`  
 
-2. Edit the Join Expressions property to add the following:
+* Edit the Join Expressions property to add the following:
 
 **Join Expressions:**  
 current_position_Left_stock_history:    `"current_position"."SYMBOL" = "stock_history"."SYMBOL"`  
 
 ![8_join_expressions](assets/8_join_expression.png)  
 
-3. Update the Output Columns property to add the following:  
+* Update the Output Columns property to add the following:  
 
 **Output Columns:**  
 current_position.TRADER:            `TRADER`  
@@ -580,18 +580,18 @@ Let's now calculate the realized and unrealized gains/losses for each trader.
 
 ### [Calculator](https://documentation.matillion.com/docs/1991925) - Calculate Realized & Unrealized Gains
 
-1. Locate the calculator component. Drag and drop it to the end of the flow and connect it to the Join component.
+* Locate the calculator component. Drag and drop it to the end of the flow and connect it to the Join component.
 
 
 ![8_calc](assets/8_calc.png)  
 
-2. Click on the Calculator component and edit the Properties as follows:  
+* Click on the Calculator component and edit the Properties as follows:  
 
 
 Name:                     `GAINS`  
 Include Input Columns:    `Yes`  
 
-3. Edit the Calculations property, and add the following expressions.  
+* Edit the Calculations property, and add the following expressions.  
 
 **Expressions:**  
 UNREAL_GAINS:         `("NET_SHARES" * "CLOSE") - ("NET_SHARES" * "AVG_PRICE")`  
@@ -611,7 +611,7 @@ The flow should now look like this:
 
 ### [Rewrite Table](https://documentation.matillion.com/docs/1991941)  
 
-1. Locate the Rewrite Tablecomponent and drag and drop into the workspace. Link it to the GAINS calculator, and click to edit the Properties as follows:  
+* Locate the Rewrite Tablecomponent and drag and drop into the workspace. Link it to the GAINS calculator, and click to edit the Properties as follows:  
 
 Name:           `TRADER_PNL_TODAY`  
 Target Table:   `TRADER_PNL_TODAY`  
@@ -622,13 +622,13 @@ The flow should now look like this:
 
 ![8_pnl_flow](assets/8_pnl_flow.png)  
 
-2. Now, locate a Aggregate component to it connect to the Calculator GAINS component, creating a parallel flow.  
+* Now, locate a Aggregate component to it connect to the Calculator GAINS component, creating a parallel flow.  
 
 ![8_para_flow](assets/8_para_flow.png)  
 
 ### [Aggregate](https://documentation.matillion.com/docs/1991880) - Sum up the gains, both realized and unrealized by each trader  
 
-1. Click on the Aggregate component and edit the Properties as follows:  
+* Click on the Aggregate component and edit the Properties as follows:  
 
 Name:               `SUM GAINS PER TRADER`  
 Groupings:          `TRADER`  
@@ -645,8 +645,8 @@ Finally, we are going to create a view to store this last aggregation result.
 
 ### [Create View](https://documentation.matillion.com/docs/2387025) - Write the trader and gains fields to a new view in Snowflake  
 
-1. Locate the Rewrite Table component and drag and drop it to connect to the SUM GAINS PER TRADER Aggregate component.  
-2. Click on the component and edit the Properties as follows:  
+* Locate the Rewrite Table component and drag and drop it to connect to the SUM GAINS PER TRADER Aggregate component.  
+* Click on the component and edit the Properties as follows:  
 
 Name:                 `TRADER_PNL_TOTAL_VIEW`  
 Target Table:         `TRADER_PNL_TOTAL_VIEW`  
@@ -693,25 +693,25 @@ Duration: 20
 
 The portfolio manager wants up-to-date stock information to know exactly where their realized and unrealized gains stand. Utilizing Matillion’s Universal Connectivity feature they can pull real-time market prices and make the calculation.
 
-1. Begin by right-clicking in the Project Explorer and select Add Orchestration job to create a new Orchestration job. Name it Yahoo_Orch.
+* Begin by right-clicking in the Project Explorer and select Add Orchestration job to create a new Orchestration job. Name it Yahoo_Orch.
 
-2. Righ click on the canvas, and click Manage Grid Variables. 
+* Righ click on the canvas, and click Manage Grid Variables. 
 
 ![9_1](assets/9_1.png)
 
-3. Create a [Grid Variable](https://documentation.matillion.com/docs/2917841) called `gv_tickers`, with a single column (`gvc_tickers`) populated with: AAPL and SBUX.
+* Create a [Grid Variable](https://documentation.matillion.com/docs/2917841) called `gv_tickers`, with a single column (`gvc_tickers`) populated with: AAPL and SBUX.
 
 ![9_2](assets/9_2.png)
 
-4. Click **Next** to add the columns AAPL and SBUX.
+* Click **Next** to add the columns AAPL and SBUX.
 
 ![9_3](assets/9_3.png)
 
-5. Click on **Project** dropdown and select **Manage Environment Variables**
+* Click on **Project** dropdown and select **Manage Environment Variables**
 
 ![9-4](assets/9-4.png)
 
-6. Create a [Environment Variable](https://documentation.matillion.com/docs/2943424) called `ev_tickerlist` using the following properties:
+* Create a [Environment Variable](https://documentation.matillion.com/docs/2943424) called `ev_tickerlist` using the following properties:
 
 | Name:  |  `ev_tickerlist` |
 |---|---|
@@ -721,7 +721,7 @@ The portfolio manager wants up-to-date stock information to know exactly where t
 
 ![9-5](assets/9-5.png)
 
-6. Drag and drop the **Query Result to Grid** component as the first  step in the flow. Fill out the component as follows:
+* Drag and drop the **Query Result to Grid** component as the first  step in the flow. Fill out the component as follows:
 
 |  Name:  | `Tickers to Grid`  |
 |---|---|
@@ -738,11 +738,11 @@ The portfolio manager wants up-to-date stock information to know exactly where t
 
 We will incorporate a Python script to “unpack” the Grid Variable set in the next step. With the stock symbols saved to a variable called loc_TICKERS, a loop will be performed to reformat a query parameter needed for a call to the [Yahoo! Finance quote endpoint](https://www.yahoofinanceapi.com/). 
 
-1. Locate the **Python Script** component and drop as the last step in the flow:
+* Locate the **Python Script** component and drop as the last step in the flow:
 
 ![9-8](assets/9-8.png)
 
-2. Update the Python Script component with the following:
+* Update the Python Script component with the following:
 
 **Script**:
 
@@ -769,25 +769,25 @@ print(ev_tickerlist)
 
 ### [API-Extract](https://documentation.matillion.com/docs/1959484) - Pull Current Stock Price Data
 
-1. From the Projects drop down in the top left, select **Manage API Profiles** > **Manage Extract Profiles**.
+* From the Projects drop down in the top left, select **Manage API Profiles** > **Manage Extract Profiles**.
 
 ![9-9](assets/9-9.png)
 
-2. Add a new **Extract Profile** using the information below:
+* Add a new **Extract Profile** using the information below:
 
 **Profile Name:** `YahooFinance`
 
 ![9-10](assets/9-10.png)
 
-3. Click **Ok** and select **New Endpoint**, and update with the following information:
+* Click **Ok** and select **New Endpoint**, and update with the following information:
 
 **Endpoint Name:** `QuotesByTicker`
 
-4. Click **Next**. 
+* Click **Next**. 
 
-5. Set the Endpoint Configuration GET to the following URI: `https://yfapi.net/v6/finance/quote`
+* Set the Endpoint Configuration GET to the following URI: `https://yfapi.net/v6/finance/quote`
 
-6. Select the **Params** tab and update with the following:
+* Select the **Params** tab and update with the following:
 
 **Params:**
 
@@ -801,13 +801,13 @@ print(ev_tickerlist)
 
 **NOTE:** Your X-API-KEY must be obtained from Yahoo Finance API (This can be retrieved by following the instructions [HERE](https://www.yahoofinanceapi.com/tutorial))
 
-7. Click **Next** and **Finish** to complete creating the Endpoint.
+* Click **Next** and **Finish** to complete creating the Endpoint.
 
-8. Locate the **API Extract** component and place is after the **Python Script** component. 
+* Locate the **API Extract** component and place is after the **Python Script** component. 
 
 ![9-11](assets/9-11.png)
 
-9. Update the component as follows:
+* Update the component as follows:
 
 |   |   |
 |---|---|
@@ -820,14 +820,14 @@ print(ev_tickerlist)
 | Location |  `Select the default S3 bucket provided by Partner Connect` |
 | Table  | `VHOL_YAHOORAW`  |
 
-10. Now we will create a new Transformation Job - Yahoo Transform - which will sit as the next step after the Yahoo Orchestration job just worked on.
+* Now we will create a new Transformation Job - Yahoo Transform - which will sit as the next step after the Yahoo Orchestration job just worked on.
 
 ### Transformation - Yahoo Transform
 
-1. Within the Projects Explorer, right click and select **Add Transformation Job**.
+* Within the Projects Explorer, right click and select **Add Transformation Job**.
 Name it Yahoo_transform.
 
-2. Create a new Table Input component and update as follows:
+* Create a new Table Input component and update as follows:
 
 |   |   |   |
 |---|---|---|
@@ -839,9 +839,9 @@ Name it Yahoo_transform.
 
 ### [Extract Nested Data](https://documentation.matillion.com/docs/2978311) - We will flatten the semi structured format & extract the values needed
 
-1. Find the **Extract Nested Data** Component and drag and drop it after the Table Input.
+* Find the **Extract Nested Data** Component and drag and drop it after the Table Input.
 
-2. Update the component as follows:
+* Update the component as follows:
 
 |   |   |   |
 |---|---|---|
@@ -856,7 +856,7 @@ Columns: Select **Autofill**, to populate all the available columns and select t
 
 ### We will now read TRADER_PNL_TODAY from our previous transformation job.
 
-1. Locate the **Table Input** component and place is underneath the previous Table Input. And update the properties as follows:
+* Locate the **Table Input** component and place is underneath the previous Table Input. And update the properties as follows:
 
 |   |   |   |
 |---|---|---|
@@ -868,7 +868,7 @@ Columns: Select **Autofill**, to populate all the available columns and select t
 
 ### Now we will only filter for Cersei’s trades by using the Filter component. 
 
-1. Locate the **Filter** component and connect it to the table input from the previous step. And update the properties as follows:
+* Locate the **Filter** component and connect it to the table input from the previous step. And update the properties as follows:
 
 |   |   |   |
 |---|---|---|
@@ -882,7 +882,7 @@ Columns: Select **Autofill**, to populate all the available columns and select t
 
 ### Now we will join Cersei’s trades with the Yahoo API data using the Join component. 
 
-1. Locate the **Join** component and connect to the Extract Nested Data and Cersei’s Trades, and update the properties as follows:
+* Locate the **Join** component and connect to the Extract Nested Data and Cersei’s Trades, and update the properties as follows:
 
 |   |   |   |
 |---|---|---|
@@ -911,7 +911,7 @@ Columns: Select **Autofill**, to populate all the available columns and select t
 
 ### Calculate the Win / Loss Logic
 
-1. Drag and drop the Calculator component as the last step of the flow and update as follows:
+* Drag and drop the Calculator component as the last step of the flow and update as follows:
 
 
 |   |   |   |
